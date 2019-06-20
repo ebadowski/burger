@@ -1,6 +1,5 @@
 var connection = require("../config/connection.js");
 
-// Helper function to convert object key/value pairs to SQL syntax
 function objToSql(obj) {
   var arr = [];
   for (var key in obj) {
@@ -33,7 +32,7 @@ var orm = {
     });
   },
 
-  addItem: function (table, cols, vals, cb) {
+  addItem: function (table, cols, vals, callback) {
     var query = "INSERT INTO " + table + " (";
     query += cols.toString();
     query += ") VALUES (";
@@ -43,15 +42,14 @@ var orm = {
     query += ") ";
 
     console.log(query);
-    // console.log(vals);
 
     connection.query(query, vals, function (err, result) {
       if (err) throw err;
 
-      cb(result);
+      callback(result);
     });
   },
-  updateItem: function (table, objColVals, condition, cb) {
+  updateItem: function (table, objColVals, condition, callback) {
     var query = "UPDATE " + table;
 
     query += " SET ";
@@ -63,19 +61,7 @@ var orm = {
     connection.query(query, function (err, result) {
       if (err) throw err;
 
-      cb(result);
-    });
-  },
-  removeItem: function (table, location, cb) {
-    var query = "DELETE FROM " + table;
-    query += " WHERE `todo_id` = ";
-    query += location;
-
-    console.log(query);
-    connection.query(query, function (err, result) {
-      if (err) throw err;
-
-      cb(result);
+      callback(result);
     });
   }
 };
